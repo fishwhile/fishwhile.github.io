@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Click Detection with Images</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            position: relative;
+        }
+        #mainImage {
+            max-width: 100%;
+            height: auto;
+            cursor: pointer;
+        }
+        #popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(2);
+            display: none;
+            z-index: 10;
+        }
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 5;
+        }
+        #welcomeText {
+            margin-bottom: 20px;
+            font-size: 80px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div id="welcomeText">歡迎來到美食地圖，點擊轉角處有驚喜哦!</div>
+    <img id="mainImage" src="images/main.jpg" alt="Main Image">
+    <div id="overlay"></div>
+    <img id="popup" src="" alt="Popup Image">
+    <script>
+        const mainImage = document.getElementById('mainImage');
+        const popup = document.getElementById('popup');
+        const overlay = document.getElementById('overlay');
+
+        mainImage.addEventListener('click', function(event) {
+            const x = event.offsetX;
+            const y = event.offsetY;
+            const width = mainImage.clientWidth;
+            const height = mainImage.clientHeight;
+
+            // Calculate the row and column based on click position
+            const col = Math.floor(x / (width / 6));
+            const row = Math.floor(y / (height / 6));
+
+            // Calculate the image index (1-36)
+            const index = row * 6 + col + 1;
+
+            // Set the popup image source
+            popup.src = `images/popup${index}.jpg`;
+
+            // Display the overlay and popup image
+            overlay.style.display = 'block';
+            popup.style.display = 'block';
+        });
+
+        // Hide the popup image and overlay when clicked
+        overlay.addEventListener('click', function() {
+            overlay.style.display = 'none';
+            popup.style.display = 'none';
+        });
+
+        popup.addEventListener('click', function() {
+            overlay.style.display = 'none';
+            popup.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
+
+
